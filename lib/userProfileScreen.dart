@@ -1,12 +1,16 @@
 
 
+import 'dart:convert';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
+import 'package:phone_verification/commonfunctions.dart';
 import 'UserData.dart';
 import 'country.dart';
 import 'gender.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 class Register extends StatefulWidget {
 
@@ -40,7 +44,7 @@ class _RegisterState extends State<Register> {
 class UserProfile extends StatefulWidget {
   final UserData _uData = UserData.empty();
   UserProfile(String userPhone, String userCountryCode, {super.key})  {
-    _uData.phone= userPhone;
+    _uData.phoneno = userPhone;
     _uData.countryCode = userCountryCode;
   }
   @override
@@ -59,9 +63,9 @@ class _UserProfileState extends State<UserProfile> {
 
   _UserProfileState()
   {
-    _nameTextController = TextEditingController(text: d.name);
-    _emailTextController = TextEditingController(text: d.email);
-    _dobTextController = TextEditingController(text: _dateFormat.format(d.dob!));
+    _nameTextController = TextEditingController(text: d.userName);
+    _emailTextController = TextEditingController(text: d.userEmail);
+    _dobTextController = TextEditingController(text: _dateFormat.format(d.userBirthDate!));
   }
 
   void _handleSexRadioChanged(String value) {
@@ -191,12 +195,18 @@ class _UserProfileState extends State<UserProfile> {
     formWidgetList.add(ElevatedButton(
       onPressed: () {
         if (_formKey.currentState?.validate() == true) {
-          widget._uData.name = _nameTextController!.text;
-          widget._uData.email = _emailTextController!.text;
+          widget._uData.userName = _nameTextController!.text;
+          widget._uData.userEmail = _emailTextController!.text;
           DateFormat f = DateFormat("dd-MM-yyyy");
-          widget._uData.dob = f.parse(_dobTextController!.text);
-          widget._uData.sex = Gender.values.byName(_sex);
-          widget._uData.country = _country;
+          widget._uData.userBirthDate = f.parse(_dobTextController!.text);
+          widget._uData.userGender = Gender.values.byName(_sex);
+          widget._uData.userCountry = _country;
+
+          var s = CommonFunctions.getUserProfileFile();
+          CommonFunctions.writeDataToFile(s, jsonEncode(widget._uData.toJson()));
+          var x = CommonFunctions.readDataFromFile(s.toString());
+          var sfd = x;
+
         }
       },
       child:   const Text('Save'),
