@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "247984692075",
+    "project_id": "myappphonefirebase",
+    "storage_bucket": "myappphonefirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247984692075:android:6107fc938fcc402e0b0a2e",
+        "android_client_info": {
+          "package_name": "com.deshpande.phone_verification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247984692075-9kcj0mun06ac91arkr5lt9a9cch15s9t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deshpande.phone_verification",
+            "certificate_hash": "f01729053cfbe314f91cd55f5a559a07d83d7234"
+          }
+        },
+        {
+          "client_id": "247984692075-q8t76fl3nojef2oflejff2stk106i1mi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvJAtj8AVdd_Iciaj4qt-3fV6rMWWj5QI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247984692075-q8t76fl3nojef2oflejff2stk106i1mi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

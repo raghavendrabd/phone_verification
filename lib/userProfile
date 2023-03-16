@@ -1,0 +1,208 @@
+
+//FOllowing error occurred
+E/FirebaseAuth(14951): [SmsRetrieverHelper] SMS verification code request failed: unknown status code: 17010 null
+
+
+
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:phone_verification/UserData.dart';
+import 'package:phone_verification/country.dart';
+import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
+import 'package:intl/intl.dart';
+import 'package:phone_verification/gender.dart';
+
+class UserProfile extends StatefulWidget {
+  final UserData _uData = UserData.empty();
+  UserProfile(String userPhone, String userCountryCode, {super.key})  {
+    _uData.phone= userPhone;
+    _uData.countryCode = userCountryCode;
+  }
+
+  @override
+  State<UserProfile> createState() => _UserProfileState();
+}
+
+class _UserProfileState extends State<UserProfile> {
+
+  String _sex = Gender.values.toString();
+  String _name = "";
+  String _email = "";
+  String? _country = CountryList.country_menu_items[0].value;
+  final DateFormat _dateFormat = DateFormat("MMM d yyyy");
+  final _formKey = GlobalKey<FormState>();
+  late TextEditingController _nameTextController;
+  late TextEditingController _emailTextController;
+  late TextEditingController _dobTextController;
+
+
+
+  void _handleSexRadioChanged(String value) {
+    setState(() {
+      _sex = value;
+    });
+  }
+
+  TextFormField createNameWidget() {
+    return TextFormField(
+      initialValue: _name,
+      validator: (value) {
+        if (value == null) {
+          return 'Please enter your name.';
+        }
+        return null;
+      },
+      decoration: const InputDecoration(
+          icon: Icon(Icons.person),
+          hintText: 'Full name',
+          labelText: 'Enter your full name'),
+      onSaved: (value) {
+        _name = value!;
+      },
+      controller: _nameTextController,
+      autofocus: true,
+      // onChanged: (value) {
+      //   setState(() {
+      //     _nameTextController.text = value!;
+      //   }
+    );
+  }
+
+  TextFormField createEmailWidget() {
+    return TextFormField(
+      initialValue: _email,
+      validator: (value) =>
+      EmailValidator.validate(value ?? "")
+          ? null
+          : "Please enter a valid email",
+      decoration: const InputDecoration(
+          icon: Icon(Icons.email),
+          hintText: 'Email',
+          labelText: 'Enter your email'),
+      onSaved: (v) {
+        _email = v!;
+      }
+     ,
+      controller: _emailTextController,
+      autofocus: true,
+      // onChanged: (value) {
+      //   setState(() {
+      //     _emailTextController.text = value!;
+      //   });
+      // },
+    );
+  }
+
+  InputDecorator createSexWidget() {
+    List<Widget> radioWidgets = [
+      const Text("Male"),
+      Radio(
+          value: "Male",
+          groupValue: _sex,
+          onChanged: (s) => _handleSexRadioChanged(s!)
+      ),
+      const Text("Female"),
+      Radio(
+          value: "Female",
+          groupValue: _sex,
+          onChanged: (s) => _handleSexRadioChanged(s!)
+      ),
+    ];
+    return InputDecorator(
+        decoration: const InputDecoration(
+          icon: Icon(Icons.person),
+          hintText: 'Gender of you',
+          labelText: 'Sex',
+        ),
+        child: DropdownButtonHideUnderline(
+            child: Row(children: radioWidgets)));
+  }
+
+  InputDecorator createCountryWidget() {
+    DropdownButton<String> stateDropdownButton = DropdownButton<String>(
+        items: CountryList.country_menu_items,
+        value: _country,
+        isDense: true,
+        onChanged: (value) {
+          setState(() {
+            _country = value;
+          });
+        });
+    return InputDecorator(
+        decoration: const InputDecoration(
+          icon: Icon(Icons.location_city),
+          hintText: 'Select the State',
+          labelText: 'Select the State',
+        ),
+        child: DropdownButtonHideUnderline(child: stateDropdownButton));
+  }
+
+  DateTimeField createDobWidget(BuildContext ctx, DateTime? dValue) {
+    return DateTimeField(
+      validator: (value) {
+        if ((value == null)) {
+          return 'Please enter your date of birth.';
+        }
+      },
+      format: _dateFormat,
+      decoration: const InputDecoration(
+          icon: Icon(Icons.date_range),
+          hintText: 'Date',
+          labelText: 'Select the Date'),
+      controller: _dobTextController,
+      onShowPicker: (ctx, dValue) {
+        return showDatePicker(
+            context: ctx,
+            firstDate: DateTime(1900),
+            initialDate: DateTime.now(),
+            lastDate: DateTime(2100));
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _nameTextController = TextEditingController(text: widget._uData.name);
+    _emailTextController = TextEditingController(text: widget._uData.email);
+    _dobTextController = TextEditingController(
+        text: widget._uData.dob != null
+            ? _dateFormat.format(widget._uData.dob)
+            : "");
+
+    List<Widget> formWidgetList = <Widget>[];
+    formWidgetList.add(createNameWidget());
+    formWidgetList.add(createEmailWidget());
+    formWidgetList.add(createSexWidget());
+    formWidgetList.add(createCountryWidget());
+    formWidgetList.add(createDobWidget(context, DateTime.now()));
+    formWidgetList.add(ElevatedButton(
+      onPressed: () {
+        if (_formKey.currentState?.validate() == true) {
+          UserData uData = createDataObjectFromFormData();
+          var x = uData.country;
+        }
+      },
+      child: const Text('Save'),
+    ));
+
+    return Scaffold(
+      body: Form(key: _formKey, child: SingleChildScrollView(child:
+          SizedBox(height: 2000,child: Column(children: formWidgetList,),
+          )
+      )
+      ),
+    );
+  }
+
+  UserData createDataObjectFromFormData() {
+    return UserData.full(
+        _nameTextController.text,
+        _emailTextController.text,
+        _dateFormat.parse(_dobTextController.text),
+        Gender.values.byName(_sex),
+        _country!);
+  }
+}
