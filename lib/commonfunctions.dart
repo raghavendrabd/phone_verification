@@ -5,10 +5,12 @@ import 'package:path_provider/path_provider.dart';
 
 class CommonFunctions {
 
-  static String getUserProfileFile() {
+  static Future<String> getUserProfileFile() async{
     //Directory appDocumentsDirectory = getApplicationDocumentsDirectory() as Directory;
-    String appDocumentsPath = "";
-    getApplicationDocumentsDirectory().then((value) => {appDocumentsPath = value.path});
+
+    //getApplicationDocumentsDirectory().then((value) => {appDocumentsPath = value.path});
+    var x = await getApplicationDocumentsDirectory();
+    String appDocumentsPath = x.path;
     return '$appDocumentsPath/userProfileDate.txt';
   }
 

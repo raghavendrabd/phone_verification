@@ -6,11 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
 import 'package:phone_verification/commonfunctions.dart';
+import 'package:phone_verification/userdetails.dart';
 import 'UserData.dart';
 import 'country.dart';
 import 'gender.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 
 class Register extends StatefulWidget {
 
@@ -61,11 +60,11 @@ class _UserProfileState extends State<UserProfile> {
   TextEditingController? _emailTextController;
   TextEditingController? _dobTextController;
 
-  _UserProfileState()
-  {
+  _UserProfileState() {
     _nameTextController = TextEditingController(text: d.userName);
     _emailTextController = TextEditingController(text: d.userEmail);
-    _dobTextController = TextEditingController(text: _dateFormat.format(d.userBirthDate!));
+    _dobTextController =
+        TextEditingController(text: _dateFormat.format(d.userBirthDate!));
   }
 
   void _handleSexRadioChanged(String value) {
@@ -193,7 +192,7 @@ class _UserProfileState extends State<UserProfile> {
     formWidgetList.add(createCountryWidget());
 
     formWidgetList.add(ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         if (_formKey.currentState?.validate() == true) {
           widget._uData.userName = _nameTextController!.text;
           widget._uData.userEmail = _emailTextController!.text;
@@ -202,16 +201,16 @@ class _UserProfileState extends State<UserProfile> {
           widget._uData.userGender = Gender.values.byName(_sex);
           widget._uData.userCountry = _country;
 
-          var s = CommonFunctions.getUserProfileFile();
-          CommonFunctions.writeDataToFile(s, jsonEncode(widget._uData.toJson()));
-          var x = CommonFunctions.readDataFromFile(s.toString());
-          var sfd = x;
-
+          var s = await CommonFunctions.getUserProfileFile();
+          CommonFunctions.writeDataToFile(
+              s, jsonEncode(widget._uData.toJson()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const UserInfo()));
         }
       },
-      child:   const Text('Save'),
+      child: const Text('Save'),
     ));
 
     return Form(key: _formKey, child: Column(children: formWidgetList));
-}
+  }
 }
