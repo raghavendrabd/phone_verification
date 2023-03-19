@@ -7,5 +7,4 @@ enum Gender
   @JsonValue("female") Female,
   @JsonValue("other") Other,
   @JsonValue("unknown") Unknown,
-
 }

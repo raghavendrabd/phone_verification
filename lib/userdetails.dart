@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:phone_verification/commonfunctions.dart';
+import 'package:phone_verification/country.dart';
+import 'package:phone_verification/gender.dart';
+import 'MyNots.dart';
 import 'UserData.dart';
 
 class UserInfo extends StatefulWidget {
@@ -13,7 +16,7 @@ class UserInfo extends StatefulWidget {
 
 class _UserInfoState extends State<UserInfo> {
 
-  DateFormat f = DateFormat("dd-MM-yyyy");
+
   @override
   Widget build(BuildContext context) {
     return const UserDetails();
@@ -41,6 +44,7 @@ class UserDetails extends StatefulWidget {
 
 class _UserDetailsState extends State<UserDetails> {
 
+  DateFormat f = DateFormat("dd-MM-yyyy");
   //Future<void> loadData async()
   Future<UserData> loadData() async {
     var x = await CommonFunctions.getUserProfileFile();
@@ -82,23 +86,24 @@ class _UserDetailsState extends State<UserDetails> {
                     const SizedBox(
                       height: 25,
                     ),
-                    Text(u!.userBirthDate.toString(),
+                    Text(f.format(u!.userBirthDate),
                       style: const TextStyle(
                           fontSize: 22, fontWeight: FontWeight.bold),),
                     const SizedBox(
                       height: 25,
                     ),
+                    //Text(Gender.values.byName(u!.userGender.toString()).toString(),
                     Text(u!.userGender.toString(),
                       style: const TextStyle(
                           fontSize: 22, fontWeight: FontWeight.bold),),
                     const SizedBox(
                       height: 25,
                     ),
-                    Text(u!.userCountry,
+                    Text(CountryList.country_menu_items.firstWhere((element) => element.value == u!.userCountry).child.toString() ,
                       style: const TextStyle(
                           fontSize: 22, fontWeight: FontWeight.bold),),
                     ElevatedButton(onPressed: () {
-                      return;
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyNots()));
                     },
                       style: ElevatedButton.styleFrom(
                           backgroundColor:Colors.redAccent,

@@ -8,12 +8,14 @@ import 'package:phone_verification/userProfileScreen.dart';
 import 'package:phone_verification/userdetails.dart';
 import 'package:phone_verification/verify.dart';
 
+import 'notlist.dart';
 import 'UserData.dart';
 import 'commonfunctions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(const AppFirstPage());
 }
 class AppFirstPage extends StatefulWidget {
