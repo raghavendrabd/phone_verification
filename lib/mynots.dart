@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'notlist.dart';
+import 'package:phone_verification/playvideo.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:phone_verification/notlist.dart' as mynotlist;
+import 'package:intent/intent.dart' as android_intent;
+import 'package:intent/extra.dart' as android_extra;
+import 'package:intent/typedExtra.dart' as android_typedExtra;
+import 'package:intent/action.dart' as android_action;
 
 //var s = TempNotList.loadData();
 class MyNots extends StatefulWidget {
@@ -10,17 +16,18 @@ class MyNots extends StatefulWidget {
 }
 
 class _MyNotsState extends State<MyNots> {
-  List<NotItem> allLists = <NotItem>[];
+  List<mynotlist.NotItem> allLists = <mynotlist.NotItem>[];
 
-  Future<List<NotItem>> getData() async {
-    return TempNotList.loadData();
+
+  Future<List<mynotlist.NotItem>> getData() async {
+    return mynotlist.TempNotList.loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<NotItem>>(
+    return FutureBuilder<List<mynotlist.NotItem>>(
         future: getData(),
-        builder: (context, AsyncSnapshot<List<NotItem>> snapshot) {
+        builder: (context, AsyncSnapshot<List<mynotlist.NotItem>> snapshot) {
           if (snapshot.hasData) {
             allLists = snapshot.data!;
             return Scaffold(
@@ -64,17 +71,110 @@ class _MyNotsState extends State<MyNots> {
     );
   }
 
-  List<Widget> getWidget(List<NotAction> actionList) {
+  List<Widget> getWidget(List<mynotlist.NotAction> actionList) {
     List<Widget> btnList = <Widget>[];
     for (var x in actionList) {
       ElevatedButton btn = ElevatedButton(
-          onPressed: () => {debugPrint('${x.ActionName} Button is pressed.')},
+          onPressed: () async {
+            if (x.actType == mynotlist.Action.call) {
+              final url = Uri.parse('tel:=${x.actionArgument}');
+              try {
+                if (await canLaunchUrl(url)) {
+                  launchUrl(url);
+                } else {
+                  // ignore: avoid_print
+                  debugPrint("Can't launch $url");
+                }
+              }
+              catch(error) {
+                debugPrint("Can't launch $error.toString()");
+              }
+            }
+
+            else if (x.actType == mynotlist.Action.writeEmail) {
+              final url = Uri.parse(x.actionArgument);
+              try {
+                if (await canLaunchUrl(url)) {
+                  launchUrl(url);
+                } else {
+                  // ignore: avoid_print
+                  debugPrint("Can't launch $url");
+                }
+              }
+              catch(error) {
+                debugPrint("Can't launch $error.toString()");
+              }
+            }
+            else if (x.actType == mynotlist.Action.youtubeLink) {
+              final url = Uri.parse(x.actionArgument);
+              try {
+                if (await canLaunchUrl(url)) {
+                  launchUrl(url);
+                } else {
+                  // ignore: avoid_print
+                  debugPrint("Can't launch $url");
+                }
+              }
+              catch(error) {
+                debugPrint("Can't launch $error.toString()");
+              }
+            }
+            else if (x.actType == mynotlist.Action.playVideo) {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => VideoPlayerScreen(x.actionArgument)));
+              // final url = Uri.parse('${x.actionArgument}');
+              // try {
+              //   if (await canLaunchUrl(url)) {
+              //     launchUrl(url);
+              //   } else {
+              //     // ignore: avoid_print
+              //     debugPrint("Can't launch $url");
+              //   }
+              // }
+              // catch(error) {
+              //   debugPrint("Can't launch $error.toString()");
+              // }
+            }
+            else if (x.actType == mynotlist.Action.redirect) {
+              final url = Uri.parse(x.actionArgument);
+              try {
+                if (await canLaunchUrl(url)) {
+                  launchUrl(url);
+                } else {
+                  // ignore: avoid_print
+                  debugPrint("Can't launch $url");
+                }
+              }
+              catch(error) {
+                debugPrint("Can't launch $error.toString()");
+              }
+            }
+            else if (x.actType == mynotlist.Action.markAsRead) {
+              android_intent.Intent()
+                ..setAction(android_action.Action.ACTION_VIEW)
+                ..setPackage("com.bt.bms")
+                ..setData(Uri.parse("https://in.bookmyshow.com/bengaluru/movies/kabzaa/ET00315054"))
+                ..startActivity().catchError((e) => debugPrint(e));
+              //Intent intent = getPackageManager().getLaunchIntentForPackage("com.google.android.youtube");
+              // final url = Uri.parse(x.actionArgument);
+              // try {
+              //   if (await canLaunchUrl(url)) {
+              //     launchUrl(url);
+              //   } else {
+              //     // ignore: avoid_print
+              //     debugPrint("Can't launch $url");
+              //   }
+              // }
+              // catch(error) {
+              //   debugPrint("Can't launch $error.toString()");
+              // }
+            }
+          },
           style: ElevatedButton.styleFrom(
               backgroundColor: Colors.redAccent,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10))),
 
-          child: Text(x.ActionName));
+          child: Text(x.actionName));
       btnList.add(btn);
     }
     return btnList;

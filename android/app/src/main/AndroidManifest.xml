@@ -1,5 +1,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.deshpande.phone_verification">
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+<!--        tools:ignore="QueryAllPackagesPermission" />-->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+            <data android:scheme="tel" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="*/*" />
+        </intent>
+        <package android:name="com.google.android.youtube" />
+    </queries>
    <application
         android:label="phone_verification"
         android:name="${applicationName}"
