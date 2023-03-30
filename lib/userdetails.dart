@@ -25,9 +25,7 @@ class _UserInfoState extends State<UserInfo> {
   void initState() {
     //loadData();
     super.initState();
-    setState(() {
-
-    });
+    setState(() {});
   }
 
 
@@ -45,11 +43,22 @@ class UserDetails extends StatefulWidget {
 class _UserDetailsState extends State<UserDetails> {
 
   DateFormat f = DateFormat("dd-MM-yyyy");
+
   //Future<void> loadData async()
   Future<UserData> loadData() async {
     var x = await CommonFunctions.getUserProfileFile();
     var y = jsonDecode(CommonFunctions.readDataFromFile(x));
     return UserData.fromJson(y);
+  }
+  
+  String getGender(String g)
+  {
+    return g.replaceAll('Gender.', '');
+  }
+
+  String getCountry(String g)
+  {
+    return g.replaceAll('Text', '').replaceAll("\"", '').replaceAll('(', '').replaceAll(')' , '');
   }
 
   @override
@@ -60,63 +69,140 @@ class _UserDetailsState extends State<UserDetails> {
           if (snapshot.hasData) {
             var u = snapshot.data;
             return Scaffold(
-              body: Container(
-                margin: const EdgeInsets.only(left: 25, right: 25),
-                alignment: Alignment.center, child: SingleChildScrollView(
+              appBar: AppBar(
+                title: const Text('Profile Details'),
+              ),
+              body:  SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    const SizedBox(
-                      height: 25,
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            Text("Name",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),)
+                            ,
+                          ],),
+                        Column(
+                          children: <Widget>[ Text(u!.userName,
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
                     ),
-                    Text(u!.userName,
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),),
-                    const SizedBox(
-                      height: 25,
+                    const SizedBox(height: 10),
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            Text("Email",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),)
+                            ,
+                          ],),
+                        Column(
+                          children: <Widget>[ Text(u!.userEmail,
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
                     ),
-                    Text(u!.userEmail,
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),),
-                    const SizedBox(
-                      height: 25,
+                    const SizedBox(height: 10),
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            Text("Phone",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),)
+                            ,
+                          ],),
+                        Column(
+                          children: <Widget>[ Text('${u!.countryCode} ${u!.phoneno}',
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
                     ),
-                    Text('${u!.countryCode} ${u!.phoneno}',
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),),
-                    const SizedBox(
-                      height: 25,
+                    const SizedBox(height: 10),
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            Text("Birth Date",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),)
+                            ,
+                          ],),
+                        Column(
+                          children: <Widget>[ Text(f.format(u!.userBirthDate),
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
                     ),
-                    Text(f.format(u!.userBirthDate),
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),),
-                    const SizedBox(
-                      height: 25,
+                    const SizedBox(height: 10),
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            Text("Gender",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),)
+                            ,
+                          ],),
+                        Column(
+                          children: <Widget>[ Text(getGender(u!.userGender.toString()),
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
                     ),
-                    //Text(Gender.values.byName(u!.userGender.toString()).toString(),
-                    Text(u!.userGender.toString(),
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),),
-                    const SizedBox(
-                      height: 25,
+                    const SizedBox(height: 10),
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            Text("Country",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),)
+                            ,
+                          ],),
+                        Column(
+                          children: <Widget>[ Text(getCountry(CountryList.country_menu_items
+              .firstWhere((element) =>
+          element.value == u!.userCountry)
+              .child
+              .toString()),
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
                     ),
-                    Text(CountryList.country_menu_items.firstWhere((element) => element.value == u!.userCountry).child.toString() ,
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),),
+
                     ElevatedButton(onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyNots()));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const MyNots()));
                     },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:Colors.redAccent,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
                           side: const BorderSide(
                             width: 4,
                             color: Color(0xffC09E63),
                           ),
-                      ), child:const Text("Proceed")
+                        ), child: const Text("Proceed")
                     ),
                   ],
                 ),
               ),
-              ),
+
             );
           } else {
             return const CircularProgressIndicator();

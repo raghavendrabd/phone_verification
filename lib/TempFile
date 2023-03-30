@@ -1,30 +1,115 @@
-//Do not delete below code
+  body: Container(
+                //margin: const EdgeInsets.only(left: 10, right: 10),
+                alignment: Alignment.center, child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            Text("Name",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),)
+                            ,
+                          ],),
+                        Column(
+                          children: <Widget>[ Text(u!.userName,
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            Text("Email",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),)
+                            ,
+                          ],),
+                        Column(
+                          children: <Widget>[ Text(u!.userEmail,
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            Text("Phone",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),)
+                            ,
+                          ],),
+                        Column(
+                          children: <Widget>[ Text('${u!.countryCode} ${u!.phoneno}',
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            Text("Birth Date",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),)
+                            ,
+                          ],),
+                        Column(
+                          children: <Widget>[ Text(f.format(u!.userBirthDate),
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
+                    ),
 
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            Text("Gender",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),)
+                            ,
+                          ],),
+                        Column(
+                          children: <Widget>[ Text(getGender(u!.userGender.toString()),
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ],
+                    ),
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:phone_verification/home.dart';
-import 'package:phone_verification/phone.dart';
-import 'package:phone_verification/userProfileScreen.dart';
-import 'package:phone_verification/verify.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-
-  runApp(MaterialApp(
-    // initialRoute: 'phone',
-    initialRoute: 'register',
-    //initialRoute: 'userProfile',
-    debugShowCheckedModeBanner: false,
-    routes: {
-      'register': (context) =>
-          Register(userPhone: "9980014232", userCountryCode: "+91"),
-      'phone': (context) => const MyPhone(),
-      'verify': (context) => const MyVerify(),
-      //'userProfile':  (context) => UserProfile(),
-      'home': (context) => const MyHome(),
-    },
-  ));
-}
+                    Text(CountryList.country_menu_items
+                        .firstWhere((element) =>
+                    element.value == u!.userCountry)
+                        .child
+                        .toString(),
+                      style: const TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),),
+                    ElevatedButton(onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const MyNots()));
+                    },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                          side: const BorderSide(
+                            width: 4,
+                            color: Color(0xffC09E63),
+                          ),
+                        ), child: const Text("Proceed")
+                    ),
+                  ],
+                ),
+              ),
+              ),

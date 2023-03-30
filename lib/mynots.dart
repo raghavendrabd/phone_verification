@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:phone_verification/playvideo.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:phone_verification/notlist.dart' as mynotlist;
-import 'package:intent/intent.dart' as android_intent;
-import 'package:intent/extra.dart' as android_extra;
-import 'package:intent/typedExtra.dart' as android_typedExtra;
-import 'package:intent/action.dart' as android_action;
 
 //var s = TempNotList.loadData();
 class MyNots extends StatefulWidget {
@@ -149,11 +145,19 @@ class _MyNotsState extends State<MyNots> {
               }
             }
             else if (x.actType == mynotlist.Action.markAsRead) {
-              android_intent.Intent()
-                ..setAction(android_action.Action.ACTION_VIEW)
-                ..setPackage("com.bt.bms")
-                ..setData(Uri.parse("https://in.bookmyshow.com/bengaluru/movies/kabzaa/ET00315054"))
-                ..startActivity().catchError((e) => debugPrint(e));
+              // var i = android_intent.Intent();
+              // i.setAction(android_action.Action.ACTION_VIEW);
+              // i.setPackage("com.bt.bms");
+              // i.setData(Uri.parse(
+              //     "https://in.bookmyshow.com/bengaluru/movies/kabzaa/ET00315054"));
+              // try {
+              //   i.startActivity();
+              // }
+              // catch (error) {
+              //   debugPrint(error.toString());
+              // }
+
+
               //Intent intent = getPackageManager().getLaunchIntentForPackage("com.google.android.youtube");
               // final url = Uri.parse(x.actionArgument);
               // try {
