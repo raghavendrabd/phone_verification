@@ -50,16 +50,166 @@ class _UserDetailsState extends State<UserDetails> {
     var y = jsonDecode(CommonFunctions.readDataFromFile(x));
     return UserData.fromJson(y);
   }
-  
-  String getGender(String g)
-  {
+
+  String getGender(String g) {
     return g.replaceAll('Gender.', '');
   }
 
-  String getCountry(String g)
-  {
-    return g.replaceAll('Text', '').replaceAll("\"", '').replaceAll('(', '').replaceAll(')' , '');
+  String getCountry(String g) {
+    return g.replaceAll('Text', '').replaceAll("\"", '')
+        .replaceAll('(', '')
+        .replaceAll(')', '');
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return FutureBuilder<UserData>(
+  //       future: loadData(),
+  //       builder: (context, AsyncSnapshot<UserData> snapshot) {
+  //         if (snapshot.hasData) {
+  //           var u = snapshot.data;
+  //           return Scaffold(
+  //             appBar: AppBar(
+  //               title: const Text('Profile Details'),
+  //             ),
+  //             body:  SingleChildScrollView(
+  //               child: Column(
+  //                 children: <Widget>[
+  //                   Row(
+  //                     children: <Widget>[
+  //                       Column(
+  //                         children: const <Widget>[
+  //                           Text("Name",
+  //                             style: TextStyle(
+  //                                 fontSize: 22, fontWeight: FontWeight.bold),)
+  //                           ,
+  //                         ],),
+  //                       Column(
+  //                         children: <Widget>[ Text(u!.userName,
+  //                           style: const TextStyle(
+  //                               fontSize: 22, fontWeight: FontWeight.bold),),
+  //                         ],
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   const SizedBox(height: 10),
+  //                   Row(
+  //                     children: <Widget>[
+  //                       Column(
+  //                         children: const <Widget>[
+  //                           Text("Email",
+  //                             style: TextStyle(
+  //                                 fontSize: 22, fontWeight: FontWeight.bold),)
+  //                           ,
+  //                         ],),
+  //                       Column(
+  //                         children: <Widget>[ Text(u!.userEmail,
+  //                           style: const TextStyle(
+  //                               fontSize: 22, fontWeight: FontWeight.bold),),
+  //                         ],
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   const SizedBox(height: 10),
+  //                   Row(
+  //                     children: <Widget>[
+  //                       Column(
+  //                         children: const <Widget>[
+  //                           Text("Phone",
+  //                             style: TextStyle(
+  //                                 fontSize: 22, fontWeight: FontWeight.bold),)
+  //                           ,
+  //                         ],),
+  //                       Column(
+  //                         children: <Widget>[ Text('${u!.countryCode} ${u!.phoneno}',
+  //                           style: const TextStyle(
+  //                               fontSize: 22, fontWeight: FontWeight.bold),),
+  //                         ],
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   const SizedBox(height: 10),
+  //                   Row(
+  //                     children: <Widget>[
+  //                       Column(
+  //                         children: const <Widget>[
+  //                           Text("Birth Date",
+  //                             style: TextStyle(
+  //                                 fontSize: 22, fontWeight: FontWeight.bold),)
+  //                           ,
+  //                         ],),
+  //                       Column(
+  //                         children: <Widget>[ Text(f.format(u!.userBirthDate),
+  //                           style: const TextStyle(
+  //                               fontSize: 22, fontWeight: FontWeight.bold),),
+  //                         ],
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   const SizedBox(height: 10),
+  //                   Row(
+  //                     children: <Widget>[
+  //                       Column(
+  //                         children: const <Widget>[
+  //                           Text("Gender",
+  //                             style: TextStyle(
+  //                                 fontSize: 22, fontWeight: FontWeight.bold),)
+  //                           ,
+  //                         ],),
+  //                       Column(
+  //                         children: <Widget>[ Text(getGender(u!.userGender.toString()),
+  //                           style: const TextStyle(
+  //                               fontSize: 22, fontWeight: FontWeight.bold),),
+  //                         ],
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   const SizedBox(height: 10),
+  //                   Row(
+  //                     children: <Widget>[
+  //                       Column(
+  //                         children: const <Widget>[
+  //                           Text("Country",
+  //                             style: TextStyle(
+  //                                 fontSize: 22, fontWeight: FontWeight.bold),)
+  //                           ,
+  //                         ],),
+  //                       Column(
+  //                         children: <Widget>[ Text(getCountry(CountryList.country_menu_items
+  //             .firstWhere((element) =>
+  //         element.value == u!.userCountry)
+  //             .child
+  //             .toString()),
+  //                           style: const TextStyle(
+  //                               fontSize: 22, fontWeight: FontWeight.bold),),
+  //                         ],
+  //                       ),
+  //                     ],
+  //                   ),
+  //
+  //                   ElevatedButton(onPressed: () {
+  //                     Navigator.of(context).push(MaterialPageRoute(
+  //                         builder: (context) => const MyNots()));
+  //                   },
+  //                       style: ElevatedButton.styleFrom(
+  //                         backgroundColor: Colors.redAccent,
+  //                         side: const BorderSide(
+  //                           width: 4,
+  //                           color: Color(0xffC09E63),
+  //                         ),
+  //                       ), child: const Text("Proceed")
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //
+  //           );
+  //         } else {
+  //           return const CircularProgressIndicator();
+  //         }
+  //       }
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,121 +222,112 @@ class _UserDetailsState extends State<UserDetails> {
               appBar: AppBar(
                 title: const Text('Profile Details'),
               ),
-              body:  SingleChildScrollView(
+              body: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     Row(
-                      children: <Widget>[
-                        Column(
-                          children: const <Widget>[
-                            Text("Name",
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),)
-                            ,
-                          ],),
-                        Column(
-                          children: <Widget>[ Text(u!.userName,
-                            style: const TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
+                      children: const <Widget>[
+                        Padding(padding: EdgeInsets.fromLTRB(10.0,0.0,0.0,5.0),
+                          child: Text("Name",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.normal),)
+                          ,),
+                      ],),
                     Row(
                       children: <Widget>[
-                        Column(
-                          children: const <Widget>[
-                            Text("Email",
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),)
-                            ,
-                          ],),
-                        Column(
-                          children: <Widget>[ Text(u!.userEmail,
+                        Padding(padding: const EdgeInsets.fromLTRB(20.0,0.0,0.0,5.0),
+                          child: Text(u!.userName,
                             style: const TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
+                                fontSize: 22, fontWeight: FontWeight.bold),)
+                          ,),
+                      ],),
+                    Row(
+                      children: const <Widget>[
+                        Padding(padding: EdgeInsets.fromLTRB(10.0,0.0,0.0,5.0),
+                          child: Text("Email",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.normal),)
+                          ,),
+                      ],),
                     Row(
                       children: <Widget>[
-                        Column(
-                          children: const <Widget>[
-                            Text("Phone",
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),)
-                            ,
-                          ],),
-                        Column(
-                          children: <Widget>[ Text('${u!.countryCode} ${u!.phoneno}',
+                        Padding(padding: const EdgeInsets.fromLTRB(20.0,0.0,0.0,5.0),
+                          child: Text(u!.userEmail,
                             style: const TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
+                                fontSize: 22, fontWeight: FontWeight.bold),)
+                          ,),
+                      ],),
+                    Row(
+                      children: const <Widget>[
+                        Padding(padding: EdgeInsets.fromLTRB(10.0,0.0,0.0,5.0),
+                          child: Text("Phone",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.normal),)
+                          ,),
+                      ],),
                     Row(
                       children: <Widget>[
-                        Column(
-                          children: const <Widget>[
-                            Text("Birth Date",
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),)
-                            ,
-                          ],),
-                        Column(
-                          children: <Widget>[ Text(f.format(u!.userBirthDate),
+                        Padding(padding: const EdgeInsets.fromLTRB(20.0,0.0,0.0,5.0),
+                          child: Text('${u!.countryCode} ${u!
+                              .phoneno}',
                             style: const TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
+                                fontSize: 22, fontWeight: FontWeight.bold),)
+                          ,),
+                      ],),
+                    Row(
+                      children: const <Widget>[
+                        Padding(padding: EdgeInsets.fromLTRB(10.0,0.0,0.0,5.0),
+                          child: Text("Birth Date",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.normal),)
+                          ,),
+                      ],),
                     Row(
                       children: <Widget>[
-                        Column(
-                          children: const <Widget>[
-                            Text("Gender",
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),)
-                            ,
-                          ],),
-                        Column(
-                          children: <Widget>[ Text(getGender(u!.userGender.toString()),
+                        Padding(padding: const EdgeInsets.fromLTRB(20.0,0.0,0.0,5.0),
+                          child: Text(f.format(u!.userBirthDate),
                             style: const TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
+                                fontSize: 22, fontWeight: FontWeight.bold),)
+                          ,),
+                      ],),
+                    Row(
+                      children: const <Widget>[
+                        Padding(padding: EdgeInsets.fromLTRB(10.0,0.0,0.0,5.0),
+                          child: Text("Gender",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.normal),)
+                          ,),
+                      ],),
                     Row(
                       children: <Widget>[
-                        Column(
-                          children: const <Widget>[
-                            Text("Country",
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),)
-                            ,
-                          ],),
-                        Column(
-                          children: <Widget>[ Text(getCountry(CountryList.country_menu_items
-              .firstWhere((element) =>
-          element.value == u!.userCountry)
-              .child
-              .toString()),
+                        Padding(padding: const EdgeInsets.fromLTRB(20.0,0.0,0.0,5.0),
+                          child: Text(getGender(
+                              u!.userGender.toString()),
                             style: const TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                      ],
-                    ),
-
+                                fontSize: 22, fontWeight: FontWeight.bold),)
+                          ,),
+                      ],),
+                    Row(
+                      children: const <Widget>[
+                        Padding(padding: EdgeInsets.fromLTRB(10.0,0.0,0.0,5.0),
+                          child: Text("Country",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.normal),)
+                          ,),
+                      ],),
+                    Row(
+                      children: <Widget>[
+                        Padding(padding: const EdgeInsets.fromLTRB(20.0,0.0,0.0,5.0),
+                          child: Text(getCountry(
+                              CountryList.country_menu_items
+                                  .firstWhere((element) =>
+                              element.value == u!.userCountry)
+                                  .child
+                                  .toString()),
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),)
+                          ,),
+                      ],),
                     ElevatedButton(onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const MyNots()));
